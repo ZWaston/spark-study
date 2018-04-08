@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: com.zw.spark.study.core.java.WordCountLocal
+
