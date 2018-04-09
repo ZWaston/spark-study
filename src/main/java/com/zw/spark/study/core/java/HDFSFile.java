@@ -19,12 +19,16 @@ public class HDFSFile {
         JavaRDD<String> lines = sc.textFile("hdfs://192.168.223.202:9000/user/zhang/words.txt",1);
         //统计文本文件内的字数
         JavaRDD<Integer> lineLength = lines.map(new Function<String, Integer>() {
+            private static final long serialVersionUID = -7830118247303761017L;
+
             @Override
             public Integer call(String s) throws Exception {
                 return s.length();
             }
         });
         int count = lineLength.reduce(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = 778785231609983779L;
+
             @Override
             public Integer call(Integer v1, Integer v2) throws Exception {
                 return v1 + v2;

@@ -24,6 +24,8 @@ public class ParallelizeCollection
         //执行reduce算子操作
         //相当于，先执行1+2=3，然后3+3=6，然后6+4=10，...
         int sum = numberRDD.reduce(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = -8751100891405603614L;
+
             @Override
             public Integer call(Integer num1, Integer num2) throws Exception {
                 return num1+num2;

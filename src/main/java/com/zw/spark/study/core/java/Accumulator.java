@@ -25,6 +25,8 @@ public class Accumulator {
         List<Integer> numbersList = Arrays.asList(1,2,3,4,5);
         JavaRDD<Integer> numbersRDD = sc.parallelize(numbersList);
         numbersRDD.foreach(new VoidFunction<Integer>() {
+            private static final long serialVersionUID = -469400465853002345L;
+
             @Override
             public void call(Integer t) throws Exception {
                 //函数内部调用add()方法,就可以对accumulator变量累加

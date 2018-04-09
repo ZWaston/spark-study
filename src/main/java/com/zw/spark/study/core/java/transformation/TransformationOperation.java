@@ -43,6 +43,8 @@ public class TransformationOperation {
         //map()的参数是Function对象，第二个参数是返回类型的参数
         //在call方法内部，对每一个原始RDD的每一个元素进行计算，返回一个新的元素，所有新的元素组成一个新的RDD
         JavaRDD<Integer> mutipleNumberRDD = numberRDD.map(new Function<Integer, Integer>() {
+            private static final long serialVersionUID = 2042934655636518158L;
+
             @Override
             public Integer call(Integer v1) throws Exception {
                 return v1 * 2;
@@ -50,6 +52,8 @@ public class TransformationOperation {
         });
         //打印新的RDD
         mutipleNumberRDD.foreach(new VoidFunction<Integer>() {
+            private static final long serialVersionUID = -9031026659642225067L;
+
             @Override
             public void call(Integer v1) throws Exception {
                 System.out.println(v1);
@@ -71,12 +75,16 @@ public class TransformationOperation {
 
         //不想保留的元素，返回false
         JavaRDD<Integer> evenNumberRDD = numberRDD.filter(new Function<Integer, Boolean>() {
+            private static final long serialVersionUID = 4843900514094221132L;
+
             @Override
             public Boolean call(Integer v1) throws Exception {
                 return v1 % 2 == 0;
             }
         });
         evenNumberRDD.foreach(new VoidFunction<Integer>() {
+            private static final long serialVersionUID = -1352077972289009176L;
+
             @Override
             public void call(Integer v) throws Exception {
                 System.out.println(v);
@@ -96,6 +104,8 @@ public class TransformationOperation {
         JavaRDD<String> numberRDD = sc.parallelize(lineList,2);
         //flatMap的返回可以返回多个元素的多个元素，封装在Iterator中
         JavaRDD<String> words = numberRDD.flatMap(new FlatMapFunction<String, String>() {
+            private static final long serialVersionUID = 3014459035726888289L;
+
             //这里会，比如，传入ni hao
             //返回的是Iterator<String>(ni,hao)
             @Override
@@ -104,6 +114,8 @@ public class TransformationOperation {
             }
         });
         words.foreach(new VoidFunction<String>() {
+            private static final long serialVersionUID = -8365100248327025152L;
+
             @Override
             public void call(String s) throws Exception {
                 System.out.println(s);
@@ -130,6 +142,8 @@ public class TransformationOperation {
         //针对scoresRDD，执行groupByKey算子，对每个班级的成绩进行分组
         JavaPairRDD<String,Iterable<Integer> > groupScores = scoresRDD.groupByKey();
         groupScores.foreach(new VoidFunction<Tuple2<String, Iterable<Integer>>>() {
+            private static final long serialVersionUID = 57089501856692635L;
+
             @Override
             public void call(Tuple2<String, Iterable<Integer>> groupScore) throws Exception {
                 System.out.println(groupScore._1 + ": " + groupScore._2);
@@ -154,12 +168,16 @@ public class TransformationOperation {
         //并行化集合
         JavaPairRDD<String,Integer> scoresRDD = sc.parallelizePairs(scores);
         JavaPairRDD<String,Integer> groupRDD = scoresRDD.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = 152563015518527976L;
+
             @Override
             public Integer call(Integer v1, Integer v2) throws Exception {
                 return v1 + v2;
             }
         });
         groupRDD.foreach(new VoidFunction<Tuple2<String, Integer>>() {
+            private static final long serialVersionUID = -6275192572350143331L;
+
             @Override
             public void call(Tuple2<String, Integer> t) throws Exception {
                 System.out.println(t._1 +": " + t._2);
@@ -185,6 +203,8 @@ public class TransformationOperation {
 
         JavaPairRDD<Integer,String> sortedRDD = scoresRDD.sortByKey(false);
         sortedRDD.foreach(new VoidFunction<Tuple2<Integer, String>>() {
+            private static final long serialVersionUID = -914561644513001192L;
+
             @Override
             public void call(Tuple2<Integer, String> t) throws Exception {
                 System.out.println(t._2 +": " + t._1);
@@ -198,7 +218,7 @@ public class TransformationOperation {
      * 这两个区别就是返回类型不同
      * cogroup,与join不同，相当于是一个key join上的所有value，都给放到一个Iterable里面去了
      */
-    public static void joinAndGroup() {
+    private static void joinAndGroup() {
         SparkConf conf = new SparkConf().setAppName("joinAndGroup").setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         //模拟集合
@@ -230,6 +250,8 @@ public class TransformationOperation {
 
         //打印studentScore
         studentScoreRDD.foreach(new VoidFunction<Tuple2<Integer, Tuple2<String, Integer>>>() {
+            private static final long serialVersionUID = -3715232392423835566L;
+
             @Override
             public void call(Tuple2<Integer, Tuple2<String, Integer>> t) throws Exception {
                 System.out.println("student id: " + t._1);

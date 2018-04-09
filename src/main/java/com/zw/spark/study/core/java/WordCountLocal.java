@@ -52,6 +52,8 @@ public class WordCountLocal {
         //FlatMapFunction，有两个泛型参数，分别代表输入和输出类型
         //这个算子主要将RDD的一个元素分解为多个元素
         JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
+            private static final long serialVersionUID = -6665768067354959668L;
+
             @Override
             public Iterator<String> call(String line) throws Exception {
                 return Arrays.asList(line.split(" ")).iterator();
@@ -65,6 +67,8 @@ public class WordCountLocal {
         //第一个泛型参数代表输入类型，第二个和第三个泛型参数，代表的是Tuple2的第一个值和第二个值的类型
         //JavaPairRDD  ,第一个和第二个泛型参数，代表的是Tuple2的第一个值和第二个值的类型
         JavaPairRDD<String,Integer> pairs = words.mapToPair(new PairFunction<String, String, Integer>() {
+            private static final long serialVersionUID = -2986718103822487873L;
+
             @Override
             public Tuple2<String, Integer> call(String word) throws Exception {
                 return new Tuple2<String,Integer>(word,1);
@@ -78,6 +82,8 @@ public class WordCountLocal {
         //最后返回的是JavaPairRDD中的元素，也是tuple,第一个是key，第二个是key的value
         //reduce之后，相当于每个单词出现的次数
         JavaPairRDD<String,Integer> wordCounts = pairs.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = 9372238063426138L;
+
             @Override
             public Integer call(Integer v1, Integer v2) throws Exception {
                 return v1+v2;
@@ -86,6 +92,8 @@ public class WordCountLocal {
 
         //最后，使用action操作，action触发提交任务
         wordCounts.foreach(new VoidFunction<Tuple2<String, Integer>>() {
+            private static final long serialVersionUID = -7341316077192185809L;
+
             @Override
             public void call(Tuple2<String, Integer> wordcount) throws Exception {
                 System.out.println(wordcount._1+": "+wordcount._2);

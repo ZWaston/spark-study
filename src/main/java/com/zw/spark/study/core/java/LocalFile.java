@@ -19,12 +19,16 @@ public class LocalFile {
         JavaRDD<String> lines = sc.textFile("C:\\Users\\zhang\\Desktop\\test.txt",1);
         //统计文本文件内的字数
         JavaRDD<Integer> lineLength = lines.map(new Function<String, Integer>() {
+            private static final long serialVersionUID = 7738957591939510804L;
+
             @Override
             public Integer call(String s) throws Exception {
                 return s.length();
             }
         });
         int count = lineLength.reduce(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = -4591107110471320322L;
+
             @Override
             public Integer call(Integer v1, Integer v2) throws Exception {
                 return v1 + v2;

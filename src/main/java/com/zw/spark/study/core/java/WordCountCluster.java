@@ -44,6 +44,8 @@ public class WordCountCluster {
 
         JavaRDD<String> lines = sc.textFile("hdfs://192.168.223.202:9000/user/zhang/words.txt");
         JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
+            private static final long serialVersionUID = -3955642046190091252L;
+
             @Override
             public Iterator<String> call(String line) throws Exception {
                 return Arrays.asList(line.split(" ")).iterator();
@@ -51,6 +53,8 @@ public class WordCountCluster {
         });
 
         JavaPairRDD<String,Integer> pairs = words.mapToPair(new PairFunction<String, String, Integer>() {
+            private static final long serialVersionUID = -5118561855396064804L;
+
             @Override
             public Tuple2<String, Integer> call(String word) throws Exception {
                 return new Tuple2<String,Integer>(word,1);
@@ -58,6 +62,8 @@ public class WordCountCluster {
         });
 
         JavaPairRDD<String,Integer> wordCounts = pairs.reduceByKey(new Function2<Integer, Integer, Integer>() {
+            private static final long serialVersionUID = -5485475717837989565L;
+
             @Override
             public Integer call(Integer v1, Integer v2) throws Exception {
                 return v1+v2;

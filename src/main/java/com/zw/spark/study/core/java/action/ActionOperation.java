@@ -23,7 +23,7 @@ public class ActionOperation {
         //take();
         countByKey();
     }
-    public static void reduce() {
+    private static void reduce() {
         SparkConf conf = new SparkConf().setAppName("reduce").setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         //对1-10的集合数字累加
@@ -42,7 +42,7 @@ public class ActionOperation {
         System.out.println(sum);
         sc.close();
     }
-    public static void collect() {
+    private static void collect() {
         SparkConf conf = new SparkConf().setAppName("collect").setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
@@ -63,7 +63,7 @@ public class ActionOperation {
         sc.close();
     }
 
-    public static void count() {
+    private static void count() {
         SparkConf conf = new SparkConf().setAppName("count").setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
@@ -74,7 +74,7 @@ public class ActionOperation {
         sc.close();
     }
 
-    public static void take() {
+    private static void take() {
         SparkConf conf = new SparkConf().setAppName("take").setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
@@ -87,7 +87,7 @@ public class ActionOperation {
         sc.close();
     }
 
-    public static void countByKey() {
+    private static void countByKey() {
         SparkConf conf = new SparkConf().setAppName("countByKey").setMaster("local");
         JavaSparkContext sc = new JavaSparkContext(conf);
         //模拟集合

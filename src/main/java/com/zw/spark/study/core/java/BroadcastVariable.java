@@ -27,6 +27,8 @@ public class BroadcastVariable {
         JavaRDD<Integer> numbersRDD = sc.parallelize(numbersList);
         JavaRDD<Integer> numberRDD = numbersRDD.map(new Function<Integer, Integer>() {
 
+            private static final long serialVersionUID = 8747272015019666378L;
+
             @Override
             public Integer call(Integer v1) throws Exception {
                 //使用广播变量，调用value方法获取内部的值
@@ -35,6 +37,8 @@ public class BroadcastVariable {
             }
         });
         numberRDD.foreach(new VoidFunction<Integer>() {
+            private static final long serialVersionUID = 4847074980829721256L;
+
             @Override
             public void call(Integer v) throws Exception {
                 System.out.println(v);
