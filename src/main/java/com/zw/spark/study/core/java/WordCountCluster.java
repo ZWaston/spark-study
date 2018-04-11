@@ -21,7 +21,6 @@ import java.util.Iterator;
  --class com.zw.spark.study.core.java.WordCountCluster \
  --driver-cores 1 \
  --driver-memory 1g \
- --num-executors 1 \
  --executor-memory 768m \
  --executor-cores 1 \
  /home/zhangwangcheng/sparktest/java/spark.study-1.0-SNAPSHOT.jar \
