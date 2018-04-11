@@ -9,9 +9,9 @@ object TransformationOperation {
     //flatMap()
     //groupByKey()
     //reduceByKey()
-    //sortByKey()
+    sortByKey()
     //join()
-    group()
+    //group()
   }
   def map(): Unit = {
     val conf = new SparkConf()
@@ -62,9 +62,17 @@ object TransformationOperation {
       .setAppName("reduceByKey_scala")
       .setMaster("local")
     val sc = new SparkContext(conf)
-    val scoresList = Array(Tuple2("class1", 80), Tuple2("class1", 90), Tuple2("class2", 60))
-    val scoresListRDD = sc.parallelize(scoresList, 2)
-    scoresListRDD.reduceByKey(_ + _).foreach(classScore => println(classScore._1+": "+classScore._2))
+    val scoresList = Array(
+      Tuple2("class1", 80), Tuple2("class1", 90), Tuple2("class2", 60),
+      Tuple2("class3", 80), Tuple2("class3", 90), Tuple2("class3", 60),
+      Tuple2("class5", 80), Tuple2("class4", 90), Tuple2("class4", 60))
+    val scoresListRDD = sc.parallelize(scoresList,5)
+    scoresListRDD.foreach(a => println(a._1+": "+a._2))
+    //底层reduceByKey实现使用高阶函数combineByKeyWithClassTag
+    //只有当同一类key在不同分区时，会将不同分区的同类key，会触发mergeCombiners这个函数
+    //因此结果每一类的结果肯定是正确的
+    //如这个例子，class1存在于两个分区，但最终将每个分区的结果合并了
+    scoresListRDD.reduceByKey(_ + _,3).foreach(classScore => println(classScore._1+": "+classScore._2))
   }
 
   def sortByKey(): Unit = {
@@ -72,8 +80,12 @@ object TransformationOperation {
       .setAppName("sortByKey_scala")
       .setMaster("local")
     val sc = new SparkContext(conf)
-    val scoresList = Array(Tuple2(80,"A"), Tuple2(50,"C"), Tuple2(100,"B"))
-    val scoresListRDD = sc.parallelize(scoresList, 2)
+    val scoresList = Array(
+      Tuple2(80,"A"),Tuple2(80,"A"), Tuple2(50,"C"), Tuple2(100,"B"),
+      Tuple2(80,"A"),Tuple2(80,"A"), Tuple2(50,"C"), Tuple2(100,"B"))
+    val scoresListRDD = sc.parallelize(scoresList)
+    scoresListRDD.foreach(a => println(a._2+": "+a._1))
+    //sortByKey（）将每个分区的内部元素进行排序
     scoresListRDD.sortByKey().foreach(studentScore => println(studentScore._2+": "+studentScore._1))
   }
 
